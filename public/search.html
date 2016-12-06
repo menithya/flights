@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+</head>
+<body>
+
+
+  <div class="container">
+      <div class="row">
+        <form class="form-inline">
+          <div class="form-group">
+            <input type="text" class="form-control" id="from" name="from" placeholder="from">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="to" name="to" placeholder="to">
+          </div>
+
+          <div class="form-group">
+            <input type="text" class="form-control" id="traveldate" placeholder="date">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form> 
+      </div>
+  </div>
+
+<ul class="tab">
+  <li><a href="javascript:void(0)" class="tablinks" onclick="onTabClick(event, 'tab1')">Tab1</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="onTabClick(event, 'tab2')">Tab2</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="onTabClick(event, 'tab3')">Tab3</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="onTabClick(event, 'tab4')">Tab4</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="onTabClick(event, 'tab5')">Tab5</a></li>
+</ul>
+
+<div id="tab1" class="tabcontent">
+    <div class="container">
+        <div class="row">
+          <div class="col-md-2">AirLine</div>
+          <div class="col-md-2">From</div>
+          <div class="col-md-2">To</div>
+          <div class="col-md-2">Departure</div>
+          <div class="col-md-2">Arival</div>
+          <div class="col-md-2">Price</div>
+        </div>
+    </div>
+    
+</div>
+<div id="tab2" class="tabcontent">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-2">AirLine</div>
+          <div class="col-md-2">From</div>
+          <div class="col-md-2">To</div>
+          <div class="col-md-2">Departure</div>
+          <div class="col-md-2">Arival</div>
+          <div class="col-md-2">Price</div>
+        </div>
+    </div>
+    
+</div>
+<div id="tab3" class="tabcontent">
+     <div class="container">
+        <div class="row">
+          <div class="col-md-2">AirLine</div>
+          <div class="col-md-2">From</div>
+          <div class="col-md-2">To</div>
+          <div class="col-md-2">Departure</div>
+          <div class="col-md-2">Arival</div>
+          <div class="col-md-2">Price</div>
+        </div>
+    </div>
+</div>
+<div id="tab4" class="tabcontent">
+    <div class="container">
+        <div class="row">
+          <div class="col-md-2">AirLine</div>
+          <div class="col-md-2">From</div>
+          <div class="col-md-2">To</div>
+          <div class="col-md-2">Departure</div>
+          <div class="col-md-2">Arival</div>
+          <div class="col-md-2">Price</div>
+        </div>
+    </div>
+</div>
+<div id="tab5" class="tabcontent">
+    <div class="container">
+        <div class="row">
+          <div class="col-md-2">AirLine</div>
+          <div class="col-md-2">From</div>
+          <div class="col-md-2">To</div>
+          <div class="col-md-2">Departure</div>
+          <div class="col-md-2">Arival</div>
+          <div class="col-md-2">Price</div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+      crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.0/moment.min.js"></script>
+<script type="text/javascript" src="/javascripts/loadingoverlay.min.js" ></script>
+
+<script>
+
+function init(){
+   $('#traveldate').datepicker({ minDate: '+3d', dateFormat: 'yy-mm-dd' });
+   document.getElementById("tab1").style.display = "block";
+
+
+}
+
+init();
+
+function onTabClick(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+ 
+
+
+function onSearch(){
+    var from=$('#from').val();
+    var to=$('#to').val();
+    var traveldate=$('#traveldate').val();
+    var queryObj = { from: from, to: to, date: traveldate };
+
+    if(!from || !to || !traveldate){
+       alert("From>To>Date all req")
+      return ;
+    }else{
+          $.LoadingOverlay("show");
+          $.get('search', queryObj, function(data) {
+             
+          var sorted =  data.sort(data, function(item) {
+            return moment(item.start.dateTime).format('x');
+          }, function(item) {
+            return item.airline.code;
+          });
+          console.log(sorted)
+          var tab1 = moment(traveldate).subtract(2, 'days').format('YYYY-MM-DD');
+          var tab2 = moment(traveldate).subtract(1, 'days').format('YYYY-MM-DD');
+          var tab3 = moment(traveldate).format('YYYY-MM-DD');
+          var tab4 = moment(traveldate).add(1, 'days').format('YYYY-MM-DD');
+          var tab5 = moment(traveldate).add(2, 'days').format('YYYY-MM-DD');
+
+          $('.tab li:eq(0) a').html(tab1);
+          $('.tab li:eq(1) a').html(tab2);
+          $('.tab li:eq(2) a').html(tab3);
+          $('.tab li:eq(3) a').html(tab4);
+          $('.tab li:eq(4) a').html(tab5);
+
+           $('#tab1 .container,#tab2 .container,#tab3 .container,#tab4 .container,#tab5 .container').html('')
+
+          $(sorted).each(function(ind, obj) {
+            var str = tableTemplate(obj);
+           console.log(tab1=== moment(obj.start.dateTime).format('YYYY-MM-DD'));
+            switch (moment(obj.start.dateTime).format('YYYY-MM-DD')) {
+              case tab1:
+                $('#tab1 .container').append(str);
+                break;
+              case tab2:
+                $('#tab2 .container').append(str);
+                break;
+              case tab3:
+                $('#tab3 .container').append(str);
+                break;
+              case tab4:
+                $('#tab4 .container').append(str);
+                break;
+              case tab5:
+                $('#tab5 .container').append(str);
+                break;
+              default:
+                break;
+            }
+          });
+
+           $.LoadingOverlay("hide");
+
+
+        })
+   }
+}
+
+   var tableTemplate = function(obj) {
+      var templateBars =
+        '<div class="row">' +
+          '<div class="col-md-2">' + obj.airline.name + ' (' + obj.airline.code + ')' + '</div>' +
+          '<div class="col-md-2">' + obj.start.cityName + ', ' + obj.start.countryName + '</div>' +
+          '<div class="col-md-2">' + obj.finish.cityName + ', ' + obj.finish.countryName + '</div>' +
+          '<div class="col-md-2">' + moment(obj.start.dateTime).format('YYYY-MM-DD HH:mm') + '</div>' +
+          '<div class="col-md-2">' + moment(obj.finish.dateTime).format('YYYY-MM-DD HH:mm') + '</div>' +
+          '<div class="col-md-2">' + obj.price  + '</div>' +
+        '</div>';
+      return templateBars;
+    };
+
+   $('form').submit(function(e) {
+      e.preventDefault();
+       onSearch();
+    });
+</script>
+
+
+</body>
+</html>
