@@ -164,7 +164,12 @@ function onSearch(){
           $('.tab li:eq(3) a').html(tab4);
           $('.tab li:eq(4) a').html(tab5);
 
-           $('#tab1 .container,#tab2 .container,#tab3 .container,#tab4 .container,#tab5 .container').html('')
+           // $('#tab1 .container>.row,#tab2 .container>.row,#tab3 .container>.row,#tab4 .container>.row,#tab5 .container>.row').html('')
+           $('#tab1 DIV.row').not(':first').html('')
+           $('#tab2 DIV.row').not(':first').html('')
+           $('#tab3 DIV.row').not(':first').html('')
+           $('#tab4 DIV.row').not(':first').html('')
+           $('#tab5 DIV.row').not(':first').html('')
 
           $(sorted).each(function(ind, obj) {
             var str = tableTemplate(obj);
